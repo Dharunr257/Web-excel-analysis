@@ -12,12 +12,13 @@ const __dirname = dirname(__filename);
 
 // Serve frontend in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
-  app.get('*', (req, res) =>
-    res.sendFile(path.join(__dirname, '../frontend','build','index.html'))
-  );
-}
+  const frontendPath = path.join(__dirname, '..', 'frontend', 'build');
+  app.use(express.static(frontendPath));
 
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  });
+}
 const PORT = process.env.PORT || 5000;
 connectDB().then(() => {
   app.listen(PORT, () => {
